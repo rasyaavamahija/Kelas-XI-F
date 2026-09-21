@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Resmi Kelas XI-F</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* VARIABLE WARNA UTAMA */
+    :root {
+      --bg-gradient-overlay: rgba(240, 244, 248, 0.85);
+      --text-color: #2d3748;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-border: #e2e8f0;
+      --header-title: #1a365d;
+      --heading-color: #2b6cb0;
+      --subtext-color: #4a5568;
+      --table-header-bg: #edf2f7;
+      --table-border: #e2e8f0;
+      --item-bg: #f7fafc;
+      --sidebar-bg: #1a202c;
+      --sidebar-text: #e2e8f0;
+    }
+
+    /* DARK MODE COLOR OVERRIDES */
+    body.dark-mode {
+      --bg-gradient-overlay: rgba(15, 23, 42, 0.92);
+      --text-color: #e2e8f0;
+      --card-bg: rgba(30, 41, 59, 0.92);
+      --card-border: #334155;
+      --header-title: #60a5fa;
+      --heading-color: #93c5fd;
+      --subtext-color: #cbd5e1;
+      --table-header-bg: #334155;
+      --table-border: #475569;
+      --item-bg: #1e293b;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+      min-height: 100vh;
+      background: linear-gradient(var(--bg-gradient-overlay), var(--bg-gradient-overlay)), 
+                  url('https://kelasxif.com/Screenshot-2026-09-21-195731.png') center/cover no-repeat fixed;
+      position: relative;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* OVERLAY & GATEWAY LANDING PAGE (INPUT DATA AWAL) */
+    .login-gateway {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .login-card p {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      color: var(--subtext-color);
+    }
+
+    /* HALAMAN UTAMA */
+    .main-content {
+      display: none;
+    }
+
+    /* TOMBOL GARIS TIGA (HAMBURGER MENU) */
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: #2b6cb0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .menu-btn:hover {
+      background: #1a365d;
+      transform: scale(1.05);
+    }
+    .menu-btn span {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    /* SIDEBAR MENU */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100%;
+      background: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      z-index: 1000;
+      transition: left 0.3s ease;
+      padding: 80px 20px 20px 20px;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+      overflow-y: auto;
+    }
+    .sidebar.active {
+      left: 0;
+    }
+    .sidebar h3 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: #60a5fa;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 8px;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar ul li {
+      margin-bottom: 10px;
+    }
+    .sidebar ul li a, .sidebar ul li button {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .sidebar ul li a:hover, .sidebar ul li button:hover {
+      background: #334155;
+    }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+    .overlay.active {
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px 0;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--header-title);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    header p {
+      color: var(--subtext-color);
+      font-weight: 500;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(5px);
+      transition: background 0.3s, border-color 0.3s;
+      position: relative;
+    }
+
+    h2 {
+      border-bottom: 2px solid var(--card-border);
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+      color: var(--heading-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* MENU TITIK TIGA DEVELOPER */
+    .dots-menu-container {
+      position: relative;
+      display: inline-block;
+    }
+    .dots-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--heading-color);
+      padding: 0 8px;
+      border-radius: 4px;
+      width: auto;
+    }
+    .dots-btn:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    .dots-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 30px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      z-index: 100;
+      min-width: 200px;
+      overflow: hidden;
+    }
+    .dots-dropdown button {
+      background: transparent;
+      color: var(--text-color);
+      padding: 10px 15px;
+      font-size: 0.85rem;
+      text-align: left;
+      width: 100%;
+      border-radius: 0;
+      font-weight: normal;
+    }
+    .dots-dropdown button:hover {
+      background: var(--table-header-bg);
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: #d69e2e;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-pengurus {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    .pengurus-item {
+      background: var(--item-bg);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid var(--card-border);
+    }
+    .pengurus-item h3 {
+      font-size: 0.95rem;
+      color: var(--heading-color);
+      margin-bottom: 5px;
+    }
+
+    /* JADWAL PIKET */
+    .grid-piket {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .piket-card {
+      background: var(--item-bg);
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .piket-header {
+      padding: 12px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .piket-senin { background-color: #2b6cb0; }
+    .piket-selasa { background-color: #319795; }
+    .piket-rabu { background-color: #4c51bf; }
+    .piket-kamis { background-color: #d69e2e; }
+    .piket-jumat { background-color: #2f855a; }
+
+    .piket-list {
+      list-style: none;
+      padding: 12px 15px;
+    }
+    .piket-list li {
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--card-border);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    .piket-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 12px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--card-border);
+      outline: none;
+      background: var(--item-bg);
+      color: var(--text-color);
+    }
+
+    button {
+      background: #38a169;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    button:hover { background: #2f855a; }
+
+    .btn-dev {
+      background: #4a5568;
+      margin-top: 10px;
+    }
+    .btn-dev:hover { background: #2d3748; }
+
+    .btn-kas { background: #319795; padding: 6px 12px; font-size: 0.85rem; width: auto; }
+    .btn-kas:hover { background: #2c7a7b; }
+
+    .btn-edit { background: #3182ce; padding: 6px 12px; font-size: 0.85rem; width: auto; }
+    .btn-edit:hover { background: #2b6cb0; }
+
+    .btn-delete { background: #e53e3e; padding: 5px 10px; font-size: 0.8rem; width: auto; }
+    .btn-delete:hover { background: #c53030; }
+
+    .btn-nav { background: #4a5568; padding: 6px 12px; font-size: 0.85rem; width: auto; }
+    .btn-nav:hover { background: #2d3748; }
+
+    .btn-admin { background: #dd6b20; padding: 8px 14px; font-size: 0.85rem; width: auto; }
+    .btn-admin:hover { background: #c05621; }
+
+    .btn-sekretaris { background: #805ad5; padding: 8px 14px; font-size: 0.85rem; width: auto; }
+    .btn-sekretaris:hover { background: #6b46c1; }
+
+    .btn-logout { background: #e53e3e; padding: 8px 14px; font-size: 0.85rem; width: auto; }
+    .btn-logout:hover { background: #c53030; }
+
+    /* Tables */
+    .table-container { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      white-space: nowrap;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid var(--table-border);
+      font-size: 0.85rem;
+    }
+    th {
+      background: var(--table-header-bg);
+      color: var(--text-color);
+    }
+    td.text-left { text-align: left; }
+
+    .kas-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #38a169;
+    }
+
+    /* Status Bar Admin / Sekretaris */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+    }
+    
+    .status-bar.bendahara-locked {
+      background: #feebc8;
+      border-color: #fbd38d;
+      color: #744210;
+    }
+    .status-bar.bendahara-active {
+      background: #c6f6d5;
+      border-color: #9ae6b4;
+      color: #22543d;
+    }
+
+    .status-bar.sekretaris-locked {
+      background: #e9d8fd;
+      border-color: #d6bcfa;
+      color: #44337a;
+    }
+    .status-bar.sekretaris-active {
+      background: #b794f4;
+      border-color: #9f7aea;
+      color: #1a202c;
+    }
+
+    /* Summary Cards */
+    .kas-summary {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .kas-box {
+      flex: 1;
+      min-width: 140px;
+      background: var(--item-bg);
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid var(--card-border);
+    }
+    .kas-box span {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .announcement-box {
+      background: #fefcbf;
+      border-left: 4px solid #d69e2e;
+      padding: 15px;
+      border-radius: 4px;
+      color: #744210;
+    }
+
+    .status-lunas { color: #38a169; font-weight: bold; }
+    .status-belum { color: #e53e3e; font-weight: bold; }
+
+    .slide-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      background: var(--table-header-bg);
+      padding: 8px 15px;
+      border-radius: 8px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .timestamp-tag {
+      font-size: 0.75rem;
+      color: var(--subtext-color);
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HALAMAN LOGIN / INPUT DATA SISWA DI AWAL PAGE -->
+  <div class="login-gateway" id="login-gateway">
+    <div class="login-card">
+      <h2>🔒 Masuk Kelas XI-F</h2>
+      <p>Pilih nama Anda dan verifikasi NIS untuk masuk ke website resmi.</p>
+      
+      <form id="form-siswa-login">
+        <div class="form-group">
+          <label for="login-nama-select">Nama Siswa:</label>
+          <select id="login-nama-select" required>
+            <option value="">-- Pilih Nama Siswa --</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="login-pass-siswa">Password Siswa (NIS):</label>
+          <input type="password" id="login-pass-siswa" placeholder="Masukkan NIS Anda" required>
+        </div>
+        <div class="form-group">
+          <label for="login-panggilan">Nama Panggilan:</label>
+          <input type="text" id="login-panggilan" placeholder="Contoh: Dika / Eka" required>
+        </div>
+        <button type="submit" style="margin-top: 10px;">Verifikasi & Masuk</button>
+      </form>
+
+      <!-- OPSI DEVELOPER (DENGAN PASSWORD 'ava cantik') -->
+      <div style="margin-top: 15px; text-align: center; border-top: 1px solid var(--card-border); padding-top: 15px;">
+        <button type="button" class="btn-dev" onclick="loginSebagaiDeveloper()">🛠️ Mode Developer (Masuk Tanpa Identitas)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HALAMAN UTAMA -->
+  <div class="main-content" id="main-content">
+
+    <!-- TOMBOL GARIS TIGA (HAMBURGER MENU) -->
+    <button class="menu-btn" onclick="toggleSidebar()" title="Buka Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- SIDEBAR MENU -->
+    <div class="sidebar" id="sidebar">
+      <h3>⚙️ Menu Navigasi</h3>
+      <ul>
+        <li>
+          <button onclick="toggleDarkMode()">
+            <span id="theme-icon">🌙</span> <span id="theme-text">Mode Gelap</span>
+          </button>
+        </li>
+        <li><a href="https://kelasxif.com/#wali-dan-struktur" onclick="closeSidebar()">👩‍🏫 Wali Kelas & Organisasi</a></li>
+        <li><a href="https://kelasxif.com/#identitas" onclick="closeSidebar()">📋 Daftar Identitas Siswa</a></li>
+        <li><a href="https://kelasxif.com/#pengumuman" onclick="closeSidebar()">📌 Pengumuman Kelas</a></li>
+        <li><a href="https://kelasxif.com/#piket" onclick="closeSidebar()">🧹 Jadwal Piket Kebersihan</a></li>
+        <li><a href="https://kelasxif.com/#rekap-kas" onclick="closeSidebar()">📊 Rekap Uang Kas</a></li>
+        <li><a href="https://kelasxif.com/#tugas" onclick="closeSidebar()">📝 Pengingat Tugas</a></li>
+        
+        <!-- OPSI AKSEBILITAS JABATAN -->
+        <li style="margin-top: 15px; border-top: 1px solid #334155; padding-top: 10px;">
+          <button onclick="closeSidebar(); toggleModeBendahara();" style="color: #f6ad55;">
+            🔑 Mode Bendahara
+          </button>
+        </li>
+        <li>
+          <button onclick="closeSidebar(); toggleModeSekretaris();" style="color: #b794f4;">
+            📝 Mode Sekretaris
+          </button>
+        </li>
+
+        <!-- OPSI UBAH PASSWORD -->
+        <li style="margin-top: 10px; border-top: 1px solid #334155; padding-top: 10px;">
+          <button onclick="closeSidebar(); gantiPasswordBendahara();" style="color: #cbd5e1;">
+            🔒 Ubah Password Bendahara
+          </button>
+        </li>
+        <li>
+          <button onclick="closeSidebar(); gantiPasswordSekretaris();" style="color: #cbd5e1;">
+            🔒 Ubah Password Sekretaris
+          </button>
+        </li>
+
+        <li style="margin-top: 15px;">
+          <button onclick="keluarSiswa()" style="color: #fc8181;">
+            🚪 Keluar / Ganti Siswa
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <div class="container">
+      <header>
+        <h1>Kelas XI-F</h1>
+        <p>Pusat Informasi & Komunitas Kelas</p>
+      </header>
+
+      <!-- BAGIAN ATAS: WALI KELAS & STRUKTUR ORGANISASI KELAS -->
+      <div id="wali-dan-struktur">
+        <!-- WALI KELAS -->
+        <section class="card">
+          <h2>👩‍🏫 Wali Kelas</h2>
+          <p style="font-size: 1.2rem; color: var(--text-color);"><strong>Indah Cahya Rahmadani, S.Pd.</strong></p>
+          <p style="margin-top: 8px; font-style: italic; color: var(--subtext-color);">"Sukses adalah hasil dari usaha kecil yang diulangi setiap hari."</p>
+        </section>
+
+        <!-- STRUKTUR ORGANISASI -->
+        <section class="card" id="organisasi">
+          <h2>
+            <span>👥 Struktur Organisasi Kelas XI-F</span>
+            
+            <!-- MENU TITIK TIGA KECIL (KHUSUS DEVELOPER) -->
+            <div class="dots-menu-container">
+              <button class="dots-btn" onclick="toggleDotsMenu('dev-organisasi-menu')" title="Opsi Developer">⋮</button>
+              <div class="dots-dropdown" id="dev-organisasi-menu">
+                <button onclick="editStrukturOrganisasi()">✏️ Edit Struktur Organisasi</button>
+              </div>
+            </div>
+          </h2>
+
+          <div class="grid-pengurus" id="grid-struktur-organisasi"></div>
+        </section>
+      </div>
+
+      <!-- 1. DAFTAR IDENTITAS SISWA -->
+      <section class="card" id="identitas">
+        <h2>📋 Daftar Identitas & Kas Siswa XI-F</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>No. Absen</th>
+                <th class="text-left">Nama Lengkap</th>
+                <th class="text-left">Nama Panggilan</th>
+                <th>Total Kas Disetor</th>
+                <th>Aksi Admin</th>
+              </tr>
+            </thead>
+            <tbody id="tabel-siswa-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. PENGUMUMAN PENTING -->
+      <section class="card" id="pengumuman">
+        <h2>📌 Pengumuman Kelas</h2>
+        <div class="announcement-box">
+          <p><strong>Pengingat Uang Kas:</strong> Kas mingguan bernilai <strong>Rp 5.000 / minggu</strong>. Bagi siswa yang belum membayar, harap membayarnya ke Eby atau Irul.</p>
+        </div>
+      </section>
+
+      <!-- 3. JADWAL PIKET KELAS -->
+      <section class="card" id="piket">
+        <h2>🧹 Jadwal Piket Kebersihan Kelas</h2>
+        <p class="subtitle">*Petugas piket wajib menjaga kebersihan kelas sesuai jadwal berikut.*</p>
+        
+        <div class="grid-piket">
+          <!-- SENIN -->
+          <div class="piket-card">
+            <div class="piket-header piket-senin">Senin</div>
+            <ul class="piket-list">
+              <li>Gantari</li>
+              <li>Tika</li>
+              <li>Azriel</li>
+              <li>Layly</li>
+              <li>Eka</li>
+              <li>Ibnu</li>
+              <li>Len</li>
+            </ul>
+          </div>
+
+          <!-- SELASA -->
+          <div class="piket-card">
+            <div class="piket-header piket-selasa">Selasa</div>
+            <ul class="piket-list">
+              <li>Ebi</li>
+              <li>Aurel</li>
+              <li>Atha</li>
+              <li>Zafie</li>
+              <li>Akbar</li>
+              <li>Nadia</li>
+              <li>Joko</li>
+              <li>Kamila</li>
+            </ul>
+          </div>
+
+          <!-- RABU -->
+          <div class="piket-card">
+            <div class="piket-header piket-rabu">Rabu</div>
+            <ul class="piket-list">
+              <li>Dzaky</li>
+              <li>Kirania</li>
+              <li>Aura</li>
+              <li>Salfa</li>
+              <li>Yusuf</li>
+              <li>Fasya</li>
+              <li>Cindi</li>
+            </ul>
+          </div>
+
+          <!-- KAMIS -->
+          <div class="piket-card">
+            <div class="piket-header piket-kamis">Kamis</div>
+            <ul class="piket-list">
+              <li>Azhuma</li>
+              <li>Kinza</li>
+              <li>Humaira</li>
+              <li>Senja</li>
+              <li>Teta</li>
+              <li>Khoiril</li>
+              <li>Dika</li>
+            </ul>
+          </div>
+
+          <!-- JUMAT -->
+          <div class="piket-card">
+            <div class="piket-header piket-jumat">Jumat</div>
+            <ul class="piket-list">
+              <li>Calista</li>
+              <li>Baim</li>
+              <li>Safira</li>
+              <li>Galvin</li>
+              <li>Ava</li>
+              <li>Gita</li>
+              <li>Aira</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. TABEL REKAPITULASI KAS PER MINGGU -->
+      <section class="card" id="rekap-kas">
+        <h2>📊 Rekapitulasi Pembayaran Kas Siswa</h2>
+        <p class="subtitle">*Centang & konfirmasi untuk otomatis memasukkan kas ke riwayat Pemasukan Kas beserta Waktunya.*</p>
+        
+        <!-- STATUS & TOMBOL MODE BENDAHARA -->
+        <div id="admin-bar" class="status-bar bendahara-locked">
+          <span id="admin-status-text">🔒 Status: <strong>Mode Lihat (Terkunci)</strong></span>
+          <button id="btn-toggle-admin" class="btn-admin" onclick="toggleModeBendahara()">🔑 Masuk Mode Bendahara</button>
+        </div>
+
+        <div class="slide-controls">
+          <button class="btn-nav" onclick="prevSlide()">◀ Slide Sebelumnya</button>
+          <span id="slide-info" style="font-weight: bold; color: var(--heading-color);">Slide 1 (Minggu 1 - 8)</span>
+          <div>
+            <button class="btn-nav" onclick="nextSlide()">Slide Berikutnya ▶</button>
+            <button class="btn-kas" onclick="tambahMingguBaru()" style="margin-left: 10px;">➕ Tambah Minggu Baru</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr id="tabel-header-rekap"></tr>
+            </thead>
+            <tbody id="tabel-rekap-kas-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. PENGINGAT TUGAS KELAS -->
+      <section class="card" id="tugas">
+        <h2>📝 Pengingat Tugas & PR Kelas</h2>
+        
+        <!-- STATUS & TOMBOL MODE SEKRETARIS -->
+        <div id="sekretaris-bar" class="status-bar sekretaris-locked">
+          <span id="sekretaris-status-text">🔒 Status: <strong>Mode Lihat Tugas (Terkunci)</strong></span>
+          <button id="btn-toggle-sekretaris" class="btn-sekretaris" onclick="toggleModeSekretaris()">📝 Masuk Mode Sekretaris</button>
+        </div>
+
+        <button class="btn-edit" onclick="tambahTugas()" style="margin-bottom: 15px;">+ Tambah Tugas Baru</button>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th class="text-left">Mata Pelajaran</th>
+                <th class="text-left">Deskripsi / Detail Tugas</th>
+                <th>Tenggat Waktu (Deadline)</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tabel-tugas-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 6. RINGKASAN KAS -->
+      <section class="card">
+        <h2>💰 Transparansi Kas Kelas</h2>
+        <div class="kas-summary">
+          <div class="kas-box">
+            Total Pemasukan
+            <span id="total-pemasukan" style="color: #38a169;">Rp 0</span>
+          </div>
+          <div class="kas-box">
+            Total Pengeluaran
+            <span id="total-pengeluaran" style="color: #e53e3e;">Rp 0</span>
+          </div>
+          <div class="kas-box">
+            Sisa Saldo Kas
+            <span id="total-saldo" style="color: #d69e2e;">Rp 0</span>
+          </div>
+        </div>
+        <div>
+          <button class="btn-kas" onclick="tambahPemasukanLain()">+ Catat Pemasukan Manual</button>
+          <button class="btn-delete" onclick="tambahPengeluaran()">- Catat Pengeluaran Kas</button>
+        </div>
+      </section>
+
+      <!-- 7. PENGELOLAAN ARUS KAS -->
+      <div class="grid-2">
+        <section class="card">
+          <h2>📥 Catatan Pemasukan Kas Kelas</h2>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th class="text-left">Sumber Pemasukan / Siswa</th>
+                  <th>Waktu Diterima</th>
+                  <th>Nominal</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tabel-pemasukan-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>💸 Catatan Pengeluaran Kas Kelas</h2>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th class="text-left">Keterangan Pengeluaran</th>
+                  <th>Nominal</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tabel-pengeluaran-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    localStorage.removeItem('loggedInUser_XIF');
+
+    let isDeveloperMode = false;
+
+    // --- STRUKTUR ORGANISASI KELAS XI-F (URL: https://kelasxif.com) ---
+    const DEFAULT_STRUKTUR = [
+      { jabatan: "Ketua Kelas", nama: "Azriel Hakim Fairuzzidan", domain: "https://azriel.kelasxif.com" },
+      { jabatan: "Wakil Ketua", nama: "Aurelita Fitria", domain: "https://aurel.kelasxif.com" },
+      { jabatan: "Sekretaris", nama: "Bayu Eka Pratiwi & Kinza Shazia Jinan", domain: "https://sekretaris.kelasxif.com" },
+      { jabatan: "Bendahara", nama: "Febri Aryanti & M. Khoiril Ikhwan", domain: "https://bendahara.kelasxif.com" },
+      { jabatan: "Kebersihan", nama: "Aurelya Semja Ardana & Ergita Raisa Fatharani", domain: "https://kebersihan.kelasxif.com" },
+      { jabatan: "Perpustakaan", nama: "Petersen Oras Maya Ibrahim & Galang Alfin Firmansyah", domain: "https://perpus.kelasxif.com" },
+      { jabatan: "Keamanan", nama: "Len Kris Anyo & Rasya Avamahija", domain: "https://keamanan.kelasxif.com" },
+      { jabatan: "Agama", nama: "Ahmad Dika Satria & Humaira Ayu Arthalia", domain: "https://agama.kelasxif.com" }
+    ];
+
+    let dataStrukturOrganisasi = JSON.parse(localStorage.getItem('struktur_organisasi_XIF')) || DEFAULT_STRUKTUR;
+
+    // --- FUNGSI RENDER STRUKTUR ORGANISASI ---
+    function renderStrukturOrganisasi() {
+      const container = document.getElementById('grid-struktur-organisasi');
+      container.innerHTML = '';
+
+      dataStrukturOrganisasi.forEach((item, index) => {
+        const box = document.createElement('div');
+        box.className = 'pengurus-item';
+        box.innerHTML = `
+          <h3>${item.jabatan}</h3>
+          <p><a href="${item.domain || 'https://kelasxif.com'}" target="_blank" style="color: inherit; text-decoration: none;">${item.nama}</a></p>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    // TOGGLE MENU TITIK TIGA DEVELOPER
+    function toggleDotsMenu(id) {
+      if (!isDeveloperMode) {
+        alert('🔒 Fitur Edit hanya dapat diakses dalam Mode Developer!');
+        return;
+      }
+      const el = document.getElementById(id);
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // FUNGSI EDIT STRUKTUR ORGANISASI (KHUSUS DEVELOPER)
+    function editStrukturOrganisasi() {
+      document.getElementById('dev-organisasi-menu').style.display = 'none';
+
+      let menuPilihan = prompt(
+        "🛠️ EDIT STRUKTUR ORGANISASI:\n\n" +
+        "1. Edit Anggota Jabatan Saja\n" +
+        "2. Tambah Jabatan Baru\n\n" +
+        "Pilih nomor (1/2):"
+      );
+
+      if (menuPilihan === '1') {
+        let listStr = "Pilih Nomor Jabatan yang Ingin Diubah:\n";
+        dataStrukturOrganisasi.forEach((item, idx) => {
+          listStr += `${idx + 1}. ${item.jabatan} (${item.nama})\n`;
+        });
+
+        let pilihan = prompt(listStr);
+        let idxChoice = parseInt(pilihan) - 1;
+
+        if (!isNaN(idxChoice) && dataStrukturOrganisasi[idxChoice]) {
+          let item = dataStrukturOrganisasi[idxChoice];
+          let namaBaru = prompt(`Edit Nama untuk ${item.jabatan}:`, item.nama);
+          if (namaBaru !== null) {
+            dataStrukturOrganisasi[idxChoice].nama = namaBaru;
+            localStorage.setItem('struktur_organisasi_XIF', JSON.stringify(dataStrukturOrganisasi));
+            renderStrukturOrganisasi();
+            alert('✅ Struktur Organisasi Berhasil Diperbarui!');
+          }
+        }
+      } else if (menuPilihan === '2') {
+        let jabatanBaru = prompt("Masukkan Nama Jabatan Baru:");
+        let namaSiswa = prompt("Masukkan Nama Siswa/Pengurus:");
+
+        if (jabatanBaru && namaSiswa) {
+          dataStrukturOrganisasi.push({ jabatan: jabatanBaru, nama: namaSiswa, domain: `https://${jabatanBaru.toLowerCase().replace(/\s+/g, '')}.kelasxif.com` });
+          localStorage.setItem('struktur_organisasi_XIF', JSON.stringify(dataStrukturOrganisasi));
+          renderStrukturOrganisasi();
+          alert('✅ Jabatan Baru Berhasil Ditambahkan!');
+        }
+      }
+    }
+
+    // --- AKSI SIDEBAR & MODE GELAP ---
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      
+      document.getElementById('theme-icon').innerText = isDark ? '☀️' : '🌙';
+      document.getElementById('theme-text').innerText = isDark ? 'Mode Terang' : 'Mode Gelap';
+      
+      localStorage.setItem('theme_XIF', isDark ? 'dark' : 'light');
+    }
+
+    if (localStorage.getItem('theme_XIF') === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.getElementById('theme-icon').innerText = '☀️';
+      document.getElementById('theme-text').innerText = 'Mode Terang';
+    }
+
+    // --- HEADER MINGGU ---
+    const DEFAULT_MINGGU_HEADERS = [
+      "22 Juli", "29 Juli", "5 Agustus", "12 Agustus", 
+      "19 Agustus", "31 Agustus", "9 September", "16 September"
+    ];
+
+    let daftarMingguHeader = JSON.parse(localStorage.getItem('headersMinggu_XIF')) || DEFAULT_MINGGU_HEADERS;
+
+    // --- DATABASE MASTER SISWA ---
+    const DATABASE_MASTER = [
+      { urt: 1,  nis: "19269", nama: "AHMAD DIKA SATRIA",            m: [1, 1, 1, 1, 1, 1, 0, 0] },
+      { urt: 2,  nis: "19161", nama: "AIRA NAFISHA ANJANI",          m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 3,  nis: "19305", nama: "AKBAR SANTINYO FEBRIANSYAH",   m: [1, 1, 1, 1, 0, 0, 0, 0] },
+      { urt: 4,  nis: "19023", nama: "ARISTO JOKO PRAMUDYANANTA",    m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 5,  nis: "19275", nama: "ATHA WIJAYANTI",               m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 6,  nis: "19309", nama: "AURA SHELLIN SHITORESMI",       m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 7,  nis: "19276", nama: "AURELITA FITRIA RAMADHANI",    m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 8,  nis: "19239", nama: "AURELYA SENJA ARDANA",         m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 9,  nis: "19278", nama: "AZHUMA QURRATA AYNI IDHAM",    m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 10, nis: "19061", nama: "AZRIEL HAKIM FAIRUZZIDAN",     m: [1, 1, 1, 1, 0, 0, 0, 0] },
+      { urt: 11, nis: "19202", nama: "BAYU EKA PRATIWI",             m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 12, nis: "19164", nama: "CALLISTA ANINDYA",            m: [1, 1, 1, 0, 0, 0, 0, 0] },
+      { urt: 13, nis: "19098", nama: "CINDI RAHMANINGSIH",          m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 14, nis: "19285", nama: "ERGITA RAISA FATHARANI",       m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 15, nis: "19288", nama: "FASYA RIZKIA RAHMADANI",       m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 16, nis: "18993", nama: "FEBRI ARYANTI",                m: [1, 1, 1, 1, 1, 1, 0, 0] },
+      { urt: 17, nis: "19169", nama: "GALANG ALVIN FIRMANSYAH",      m: [1, 1, -2, 0, 0, 0, 0, 0] },
+      { urt: 18, nis: "19106", nama: "HUMAIRA AYU ARTHALIA",         m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 19, nis: "19210", nama: "KAMILA PUJA RAMADHANI",        m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 20, nis: "19214", nama: "KINZA SHAZIA JINAN",           m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 21, nis: "19139", nama: "KIRANIA PUTRI MADINAH",        m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 22, nis: "19215", nama: "LAILY SACHI KIRANA",           m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 23, nis: "19178", nama: "LEN KRIS ANYO",                m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 24, nis: "19181", nama: "MOHAMAD KHOIRIL IKHWAN",       m: [1, 1, 1, 1, 1, 1, 0, 0] },
+      { urt: 25, nis: "19295", nama: "MUHAMMAD IBNU PRAJA ALFARIZY",  m: [1, 1, 1, 1, 1, 1, 0, 0] },
+      { urt: 26, nis: "19182", nama: "MUHAMMAD YUSUF HILMY RAMADHAN",m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 27, nis: "19146", nama: "MUHAMMAD ZAFIE",               m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 28, nis: "19326", nama: "MYESHELANI GANTARI LAKSITA",   m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 29, nis: "19074", nama: "NADIA SYARIFA",                m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 30, nis: "19223", nama: "PETERSEN ORAS MAYA IBRAHIM",   m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 31, nis: "19300", nama: "RASYA AVAMAHIJA",              m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 32, nis: "19189", nama: "SALFA ALMAHIRA CAHYANI",       m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 33, nis: "19079", nama: "SAPHIRA BALQUES FATMANA",       m: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { urt: 34, nis: "19335", nama: "SWASTIKA PUTRI RAMADHANI",     m: [1, 1, 1, 1, 1, 1, 1, 1] },
+      { urt: 35, nis: "19120", nama: "SYAFEERA ARTETA AZIZIAH N.",   m: [1, 1, 1, 1, 1, 0, 0, 0] },
+      { urt: 36, nis: "19302", nama: "SYARIF DZAKY SETYAPUTRA",      m: [1, 1, 1, 0, 0, 0, 0, 0] }
+    ];
+
+    const DEFAULT_PENGELUARAN = [
+      { keterangan: "Pengeluaran Awal (22 Juli)", nominal: 26000 }
+    ];
+
+    let databaseSiswa = JSON.parse(localStorage.getItem('kasMingguan_XIF')) || DATABASE_MASTER;
+    let dataPengeluaran = JSON.parse(localStorage.getItem('pengeluaran_XIF')) || DEFAULT_PENGELUARAN;
+
+    let passwordKetua = localStorage.getItem('pass_ketua_XIF') || "ketua f kecil";
+    let passwordBendahara = localStorage.getItem('pass_bendahara_XIF') || "bendahara f kecil";
+    let passwordSekretaris = localStorage.getItem('pass_sekretaris_XIF') || "sekretaris f kecil";
+
+    let isModeBendaharaActive = false;
+    let isModeSekretarisActive = false;
+
+    const formSiswaLogin = document.getElementById('form-siswa-login');
+    const loginNamaSelect = document.getElementById('login-nama-select');
+    const tabelSiswaBody = document.getElementById('tabel-siswa-body');
+    const tabelHeaderRekap = document.getElementById('tabel-header-rekap');
+    const tabelRekapKasBody = document.getElementById('tabel-rekap-kas-body');
+    const tabelPengeluaranBody = document.getElementById('tabel-pengeluaran-body');
+    const tabelPemasukanBody = document.getElementById('tabel-pemasukan-body');
+    const tabelTugasBody = document.getElementById('tabel-tugas-body');
+    
+    const elemTotalPemasukan = document.getElementById('total-pemasukan');
+    const elemTotalPengeluaran = document.getElementById('total-pengeluaran');
+    const elemTotalSaldo = document.getElementById('total-saldo');
+    const slideInfo = document.getElementById('slide-info');
+
+    const adminBar = document.getElementById('admin-bar');
+    const adminStatusText = document.getElementById('admin-status-text');
+    const btnToggleAdmin = document.getElementById('btn-toggle-admin');
+
+    const sekretarisBar = document.getElementById('sekretaris-bar');
+    const sekretarisStatusText = document.getElementById('sekretaris-status-text');
+    const btnToggleSekretaris = document.getElementById('btn-toggle-sekretaris');
+
+    let dataSiswa = JSON.parse(localStorage.getItem('dataSiswa_XIF')) || [];
+    let dataPemasukanLain = JSON.parse(localStorage.getItem('pemasukanLain_XIF')) || [];
+    let dataTugas = JSON.parse(localStorage.getItem('tugas_XIF')) || [];
+
+    let currentSlide = 0;
+    const itemsPerSlide = 8;
+
+    function getWaktuSekarangFormatted() {
+      const d = new Date();
+      const opsiTanggal = { day: 'numeric', month: 'short', year: 'numeric' };
+      const tgl = d.toLocaleDateString('id-ID', opsiTanggal);
+      const jam = String(d.getHours()).padStart(2, '0');
+      const min = String(d.getMinutes()).padStart(2, '0');
+      const sec = String(d.getSeconds()).padStart(2, '0');
+      return `${tgl}, ${jam}:${min}:${sec} WIB`;
+    }
+
+    function gantiPasswordBendahara() {
+      const oldPass = prompt('🔑 Masukkan Password Bendahara Saat Ini:');
+      if (oldPass === passwordBendahara || oldPass === passwordKetua) {
+        const newPass = prompt('🔑 Masukkan Password Bendahara Baru:');
+        if (newPass) {
+          passwordBendahara = newPass;
+          localStorage.setItem('pass_bendahara_XIF', newPass);
+          alert('✅ Password Bendahara berhasil diperbarui!');
+        }
+      } else if (oldPass !== null) {
+        alert('❌ Password Salah!');
+      }
+    }
+
+    function gantiPasswordSekretaris() {
+      const oldPass = prompt('🔑 Masukkan Password Sekretaris Saat Ini:');
+      if (oldPass === passwordSekretaris || oldPass === passwordKetua) {
+        const newPass = prompt('🔑 Masukkan Password Sekretaris Baru:');
+        if (newPass) {
+          passwordSekretaris = newPass;
+          localStorage.setItem('pass_sekretaris_XIF', newPass);
+          alert('✅ Password Sekretaris berhasil diperbarui!');
+        }
+      } else if (oldPass !== null) {
+        alert('❌ Password Salah!');
+      }
+    }
+
+    function toggleModeBendahara() {
+      if (isModeBendaharaActive) {
+        isModeBendaharaActive = false;
+        adminBar.className = 'status-bar bendahara-locked';
+        adminStatusText.innerHTML = '🔒 Status: <strong>Mode Lihat (Terkunci)</strong>';
+        btnToggleAdmin.innerText = '🔑 Masuk Mode Bendahara';
+        btnToggleAdmin.className = 'btn-admin';
+        alert('🚪 Anda telah keluar dari Mode Bendahara.');
+      } else {
+        const pass = prompt('🔑 Masukkan Password Bendahara / Ketua:');
+        if (pass === passwordBendahara || pass === passwordKetua) {
+          isModeBendaharaActive = true;
+          adminBar.className = 'status-bar bendahara-active';
+          adminStatusText.innerHTML = '🔓 Status: <strong>Mode Bendahara Aktif (Bisa Mengedit Kas)</strong>';
+          btnToggleAdmin.innerText = '🚪 Keluar Mode Bendahara';
+          btnToggleAdmin.className = 'btn-logout';
+          alert('✅ Mode Bendahara berhasil diaktifkan!');
+        } else if (pass !== null) {
+          alert('❌ Password Salah!');
+        }
+      }
+      renderTabelRekapKas();
+    }
+
+    function toggleModeSekretaris() {
+      if (isModeSekretarisActive) {
+        isModeSekretarisActive = false;
+        sekretarisBar.className = 'status-bar sekretaris-locked';
+        sekretarisStatusText.innerHTML = '🔒 Status: <strong>Mode Lihat Tugas (Terkunci)</strong>';
+        btnToggleSekretaris.innerText = '📝 Masuk Mode Sekretaris';
+        btnToggleSekretaris.className = 'btn-sekretaris';
+        alert('🚪 Anda telah keluar dari Mode Sekretaris.');
+      } else {
+        const pass = prompt('🔑 Masukkan Password Sekretaris / Ketua:');
+        if (pass === passwordSekretaris || pass === passwordKetua) {
+          isModeSekretarisActive = true;
+          sekretarisBar.className = 'status-bar sekretaris-active';
+          sekretarisStatusText.innerHTML = '✏️ Status: <strong>Mode Sekretaris Aktif (Bisa Kelola Tugas)</strong>';
+          btnToggleSekretaris.innerText = '🚪 Keluar Mode Sekretaris';
+          btnToggleSekretaris.className = 'btn-logout';
+          alert('✅ Mode Sekretaris berhasil diaktifkan!');
+        } else if (pass !== null) {
+          alert('❌ Password Salah!');
+        }
+      }
+    }
+
+    function populateLoginOptions() {
+      loginNamaSelect.innerHTML = '<option value="">-- Pilih Nama Siswa --</option>';
+      databaseSiswa.forEach(s => {
+        const option = document.createElement('option');
+        option.value = s.urt;
+        option.textContent = `${s.urt}. ${s.nama}`;
+        loginNamaSelect.appendChild(option);
+      });
+    }
+
+    formSiswaLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const selectedUrt = loginNamaSelect.value;
+      const inputPass = document.getElementById('login-pass-siswa').value.trim();
+      const panggilan = document.getElementById('login-panggilan').value.trim();
+
+      if (!selectedUrt) {
+        alert('❌ Silakan pilih nama siswa.');
+        return;
+      }
+
+      const dataSiswaPilihan = databaseSiswa.find(s => s.urt == selectedUrt);
+
+      if (inputPass !== dataSiswaPilihan.nis) {
+        alert('❌ Password Salah! Masukkan NIS Anda sebagai password verifikasi.');
+        return;
+      }
+
+      const existingIndex = dataSiswa.findIndex(s => s.nama === dataSiswaPilihan.nama);
+      if (existingIndex === -1) {
+        dataSiswa.push({ 
+          nama: dataSiswaPilihan.nama, 
+          absen: dataSiswaPilihan.urt, 
+          catatan: panggilan, 
+          kas: 0 
+        });
+        localStorage.setItem('dataSiswa_XIF', JSON.stringify(dataSiswa));
+      } else {
+        dataSiswa[existingIndex].catatan = panggilan;
+        localStorage.setItem('dataSiswa_XIF', JSON.stringify(dataSiswa));
+      }
+
+      isDeveloperMode = false;
+      alert(`✅ Selamat Datang, ${panggilan || dataSiswaPilihan.nama}!`);
+      
+      document.getElementById('login-gateway').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      renderTabelSiswa();
+    });
+
+    function loginSebagaiDeveloper() {
+      const devPass = prompt('🛠️ Masukkan Password Developer:');
+      if (devPass === 'ava cantik') {
+        isDeveloperMode = true;
+        alert('✅ Akses Developer Diterima. Selamat Datang!');
+        document.getElementById('login-gateway').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+      } else if (devPass !== null) {
+        alert('❌ Password Developer Salah!');
+      }
+    }
+
+    function keluarSiswa() {
+      if (confirm('Apakah Anda yakin ingin keluar dari sesi ini?')) {
+        isDeveloperMode = false;
+        closeSidebar();
+        document.getElementById('main-content').style.display = 'none';
+        document.getElementById('login-gateway').style.display = 'flex';
+        formSiswaLogin.reset();
+      }
+    }
+
+    function hitungTotalKasSiswa(mArray) {
+      if (!Array.isArray(mArray)) return 0;
+      return mArray.reduce((acc, val) => {
+        if (val === 1) return acc + 5000;
+        if (val === -2) return acc + 3000;
+        if (typeof val === 'number' && val > 1) return acc + val;
+        return acc;
+      }, 0);
+    }
+
+    function renderTabelRekapKas() {
+      const startIndex = currentSlide * itemsPerSlide;
+      const endIndex = Math.min(startIndex + itemsPerSlide, daftarMingguHeader.length);
+      
+      slideInfo.textContent = `Slide ${currentSlide + 1} (Minggu ${startIndex + 1} - ${endIndex})`;
+
+      let headerHTML = `<th>No.</th><th class="text-left">Nama Lengkap</th>`;
+      for (let i = startIndex; i < endIndex; i++) {
+        headerHTML += `<th>${daftarMingguHeader[i]}</th>`;
+      }
+      headerHTML += `<th>Total Kas Disetor</th>`;
+      tabelHeaderRekap.innerHTML = headerHTML;
+
+      tabelRekapKasBody.innerHTML = '';
+      databaseSiswa.forEach((s, idxSiswa) => {
+        const totalRp = hitungTotalKasSiswa(s.m);
+        const row = document.createElement('tr');
+        
+        let mCols = '';
+        for (let idxMinggu = startIndex; idxMinggu < endIndex; idxMinggu++) {
+          const val = s.m[idxMinggu] || 0;
+          const isChecked = val === 1 || val === -2 ? 'checked' : '';
+          
+          mCols += `
+            <td>
+              <input type="checkbox" 
+                     class="kas-checkbox" 
+                     ${isChecked}
+                     onchange="toggleKasMinggu(${idxSiswa}, ${idxMinggu}, this)">
+            </td>
+          `;
+        }
+
+        row.innerHTML = `
+          <td>${s.urt}</td>
+          <td class="text-left">${s.nama}</td>
+          ${mCols}
+          <td class="status-lunas">Rp ${totalRp.toLocaleString('id-ID')}</td>
+        `;
+        tabelRekapKasBody.appendChild(row);
+      });
+    }
+
+    function toggleKasMinggu(idxSiswa, idxMinggu, checkboxElem) {
+      if (!isModeBendaharaActive) {
+        alert('🔒 Tabel Kas Terkunci! Harap klik "🔑 Masuk Mode Bendahara" terlebih dahulu.');
+        checkboxElem.checked = !checkboxElem.checked;
+        return;
+      }
+
+      const siswa = databaseSiswa[idxSiswa];
+      const namaMinggu = daftarMingguHeader[idxMinggu];
+      const nominalKas = 5000;
+      const tagKunci = `[Auto-Kas: ${siswa.nama} - Minggu ${namaMinggu}]`;
+
+      if (checkboxElem.checked) {
+        const konfirmasi = confirm(`Apakah Anda yakin ingin memverifikasi pembayaran Kas Rp 5.000 untuk ${siswa.nama} (${namaMinggu})?`);
+        if (!konfirmasi) {
+          checkboxElem.checked = false;
+          return;
+        }
+
+        siswa.m[idxMinggu] = 1;
+        const waktuSetor = getWaktuSekarangFormatted();
+
+        dataPemasukanLain.push({
+          sumber: `Kas ${siswa.nama} (${namaMinggu})`,
+          nominal: nominalKas,
+          waktu: waktuSetor,
+          autoTag: tagKunci
+        });
+
+        alert(`✅ Kas ${siswa.nama} berhasil masuk!\nWaktu: ${waktuSetor}`);
+      } else {
+        const konfirmasiHapus = confirm(`Membatalkan centang akan menghapus catatan kas ${siswa.nama} (${namaMinggu}). Lanjutkan?`);
+        if (!konfirmasiHapus) {
+          checkboxElem.checked = true;
+          return;
+        }
+
+        siswa.m[idxMinggu] = 0;
+        dataPemasukanLain = dataPemasukanLain.filter(p => p.autoTag !== tagKunci);
+      }
+
+      localStorage.setItem('kasMingguan_XIF', JSON.stringify(databaseSiswa));
+      localStorage.setItem('pemasukanLain_XIF', JSON.stringify(dataPemasukanLain));
+
+      renderTabelRekapKas();
+      renderTabelSiswa();
+      renderTabelPemasukanLain();
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        renderTabelRekapKas();
+      }
+    }
+
+    function nextSlide() {
+      if ((currentSlide + 1) * itemsPerSlide < daftarMingguHeader.length) {
+        currentSlide++;
+        renderTabelRekapKas();
+      } else {
+        alert('Ini adalah slide terakhir.');
+      }
+    }
+
+    function tambahMingguBaru() {
+      if (!isModeBendaharaActive) {
+        alert('🔒 Silakan aktifkan Mode Bendahara terlebih dahulu untuk menambah minggu!');
+        return;
+      }
+
+      const namaMinggu = prompt('Masukkan Nama/Tanggal Minggu Baru (Contoh: 23 September):');
+      if (namaMinggu) {
+        daftarMingguHeader.push(namaMinggu);
+        databaseSiswa.forEach(s => s.m.push(0));
+        
+        localStorage.setItem('headersMinggu_XIF', JSON.stringify(daftarMingguHeader));
+        localStorage.setItem('kasMingguan_XIF', JSON.stringify(databaseSiswa));
+        
+        currentSlide = Math.floor((daftarMingguHeader.length - 1) / itemsPerSlide);
+        renderTabelRekapKas();
+        alert(`✅ Minggu baru "${namaMinggu}" berhasil ditambahkan!`);
+      }
+    }
+
+    function hitungKategoriKas() {
+      const totalKasSiswaInput = dataSiswa.reduce((total, s) => total + (Number(s.kas) || 0), 0);
+      const totalPemasukanLain = dataPemasukanLain.reduce((total, p) => total + (Number(p.nominal) || 0), 0);
+      
+      const totalPemasukanSemua = totalKasSiswaInput + totalPemasukanLain;
+      const totalPengeluaran = dataPengeluaran.reduce((total, p) => total + (Number(p.nominal) || 0), 0);
+      const sisaSaldo = totalPemasukanSemua - totalPengeluaran;
+
+      elemTotalPemasukan.innerText = "Rp " + totalPemasukanSemua.toLocaleString('id-ID');
+      elemTotalPengeluaran.innerText = "Rp " + totalPengeluaran.toLocaleString('id-ID');
+      elemTotalSaldo.innerText = "Rp " + sisaSaldo.toLocaleString('id-ID');
+    }
+
+    function renderTabelTugas() {
+      tabelTugasBody.innerHTML = '';
+      if (dataTugas.length === 0) {
+        tabelTugasBody.innerHTML = `<tr><td colspan="4" style="text-align:center; opacity:0.7;">Belum ada pengingat tugas dari Sekretaris.</td></tr>`;
+        return;
+      }
+      dataTugas.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="text-left"><strong>${item.mapel}</strong></td>
+          <td class="text-left">${item.deskripsi}</td>
+          <td style="color: #d69e2e; font-weight: bold;">${item.deadline}</td>
+          <td><button class="btn-delete" onclick="hapusTugas(${index})">Hapus</button></td>
+        `;
+        tabelTugasBody.appendChild(row);
+      });
+    }
+
+    function tambahTugas() {
+      let isAllowed = isModeSekretarisActive;
+      if (!isAllowed) {
+        const pass = prompt('🔑 Masukkan Password Khusus Sekretaris / Ketua:');
+        if (pass === passwordSekretaris || pass === passwordKetua) {
+          isAllowed = true;
+        } else if (pass !== null) {
+          alert('❌ Password Salah!');
+        }
+      }
+
+      if (isAllowed) {
+        const mapel = prompt('Mata Pelajaran:');
+        const deskripsi = prompt('Deskripsi Tugas:');
+        const deadline = prompt('Tenggat Waktu:');
+
+        if (mapel && deskripsi && deadline) {
+          dataTugas.push({ mapel, deskripsi, deadline });
+          localStorage.setItem('tugas_XIF', JSON.stringify(dataTugas));
+          renderTabelTugas();
+          alert('✅ Pengingat tugas berhasil ditambahkan!');
+        }
+      }
+    }
+
+    function hapusTugas(index) {
+      let isAllowed = isModeSekretarisActive;
+      if (!isAllowed) {
+        const pass = prompt('🔑 Masukkan Password Khusus Sekretaris / Ketua:');
+        if (pass === passwordSekretaris || pass === passwordKetua) {
+          isAllowed = true;
+        } else if (pass !== null) {
+          alert('❌ Password Salah!');
+        }
+      }
+
+      if (isAllowed) {
+        dataTugas.splice(index, 1);
+        localStorage.setItem('tugas_XIF', JSON.stringify(dataTugas));
+        renderTabelTugas();
+        alert('🗑️ Tugas berhasil dihapus.');
+      }
+    }
+
+    function renderTabelSiswa() {
+      tabelSiswaBody.innerHTML = '';
+      dataSiswa.sort((a, b) => a.absen - b.absen);
+
+      dataSiswa.forEach((siswa, index) => {
+        const dbSiswa = databaseSiswa.find(s => s.nama === siswa.nama);
+        const kasRekap = dbSiswa ? hitungTotalKasSiswa(dbSiswa.m) : 0;
+        const totalKasDisplay = kasRekap + (Number(siswa.kas) || 0);
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${siswa.absen}</td>
+          <td class="text-left">${siswa.nama}</td>
+          <td class="text-left">${siswa.catatan || '-'}</td>
+          <td class="status-lunas">Rp ${totalKasDisplay.toLocaleString('id-ID')}</td>
+          <td>
+            <button class="btn-kas" onclick="updateKasSiswa(${index})">+ Kas</button>
+            <button class="btn-edit" onclick="editSiswa(${index})">Edit</button>
+            <button class="btn-delete" onclick="hapusSiswa(${index})">Hapus</button>
+          </td>
+        `;
+        tabelSiswaBody.appendChild(row);
+      });
+
+      hitungKategoriKas();
+    }
+
+    function renderTabelPemasukanLain() {
+      tabelPemasukanBody.innerHTML = '';
+      if (dataPemasukanLain.length === 0) {
+        tabelPemasukanBody.innerHTML = `<tr><td colspan="4" style="text-align:center; opacity:0.7;">Belum ada catatan pemasukan.</td></tr>`;
+        return;
+      }
+      dataPemasukanLain.forEach((item, index) => {
+        const row = document.createElement('tr');
+        const waktuDisplay = item.waktu ? item.waktu : '-';
+        row.innerHTML = `
+          <td class="text-left">${item.sumber}</td>
+          <td><span class="timestamp-tag">🕒 ${waktuDisplay}</span></td>
+          <td class="status-lunas">Rp ${(Number(item.nominal) || 0).toLocaleString('id-ID')}</td>
+          <td><button class="btn-delete" onclick="hapusPemasukanLain(${index})">Hapus</button></td>
+        `;
+        tabelPemasukanBody.appendChild(row);
+      });
+      hitungKategoriKas();
+    }
+
+    function renderTabelPengeluaran() {
+      tabelPengeluaranBody.innerHTML = '';
+      if (dataPengeluaran.length === 0) {
+        tabelPengeluaranBody.innerHTML = `<tr><td colspan="3" style="text-align:center; opacity:0.7;">Belum ada pengeluaran kas.</td></tr>`;
+        return;
+      }
+      dataPengeluaran.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="text-left">${item.keterangan}</td>
+          <td class="status-belum">Rp ${(Number(item.nominal) || 0).toLocaleString('id-ID')}</td>
+          <td><button class="btn-delete" onclick="hapusPengeluaran(${index})">Hapus</button></td>
+        `;
+        tabelPengeluaranBody.appendChild(row);
+      });
+      hitungKategoriKas();
+    }
+
+    function editSiswa(index) {
+      const passKetua = prompt('🔑 Masukkan Password Khusus Ketua:');
+      if (passKetua === passwordKetua) {
+        const siswa = dataSiswa[index];
+        const namaBaru = prompt('Edit Nama Lengkap:', siswa.nama) || siswa.nama;
+        const absenBaru = prompt('Edit Nomor Absen:', siswa.absen) || siswa.absen;
+        const panggilanBaru = prompt('Edit Nama Panggilan:', siswa.catatan) || siswa.catatan;
+
+        dataSiswa[index] = {
+          ...siswa,
+          nama: namaBaru,
+          absen: parseInt(absenBaru),
+          catatan: panggilanBaru
+        };
+
+        localStorage.setItem('dataSiswa_XIF', JSON.stringify(dataSiswa));
+        renderTabelSiswa();
+        alert('✅ Data siswa berhasil diperbarui!');
+      } else if (passKetua !== null) {
+        alert('❌ Password Salah!');
+      }
+    }
+
+    function hapusSiswa(index) {
+      const passKetua = prompt('🔑 Masukkan Password Khusus Ketua:');
+      if (passKetua === passwordKetua) {
+        if (confirm(`Apakah Anda yakin ingin menghapus ${dataSiswa[index].nama}?`)) {
+          dataSiswa.splice(index, 1);
+          localStorage.setItem('dataSiswa_XIF', JSON.stringify(dataSiswa));
+          renderTabelSiswa();
+          alert('🗑️ Data berhasil dihapus.');
+        }
+      } else if (passKetua !== null) {
+        alert('❌ Password Salah!');
+      }
+    }
+
+    function updateKasSiswa(index) {
+      if (!isModeBendaharaActive) {
+        alert('🔒 Silakan masuk ke Mode Bendahara terlebih dahulu untuk menambah kas!');
+        return;
+      }
+      const kasTambahan = prompt(`Masukkan nominal kas tambahan untuk ${dataSiswa[index].nama}:`, "5000");
+      if (kasTambahan !== null && !isNaN(kasTambahan) && Number(kasTambahan) > 0) {
+        const nominal = Number(kasTambahan);
+        dataSiswa[index].kas = (Number(dataSiswa[index].kas) || 0) + nominal;
+        
+        const waktuSetor = getWaktuSekarangFormatted();
+        dataPemasukanLain.push({
+          sumber: `Kas Tambahan: ${dataSiswa[index].nama}`,
+          nominal: nominal,
+          waktu: waktuSetor
+        });
+
+        localStorage.setItem('dataSiswa_XIF', JSON.stringify(dataSiswa));
+        localStorage.setItem('pemasukanLain_XIF', JSON.stringify(dataPemasukanLain));
+        
+        renderTabelSiswa();
+        renderTabelPemasukanLain();
+        alert(`✅ Kas tambahan Rp ${nominal.toLocaleString('id-ID')} untuk ${dataSiswa[index].nama} berhasil ditambahkan!`);
+      }
+    }
+
+    function tambahPemasukanLain() {
+      if (!isModeBendaharaActive) {
+        alert('🔒 Silakan masuk ke Mode Bendahara terlebih dahulu!');
+        return;
+      }
+      const sumber = prompt('Sumber pemasukan:');
+      const nominal = prompt('Jumlah nominal:');
+      if (sumber && nominal && !isNaN(nominal)) {
+        const waktuSetor = getWaktuSekarangFormatted();
+        dataPemasukanLain.push({ sumber, nominal: Number(nominal), waktu: waktuSetor });
+        localStorage.setItem('pemasukanLain_XIF', JSON.stringify(dataPemasukanLain));
+        renderTabelPemasukanLain();
+      }
+    }
+
+    function hapusPemasukanLain(index) {
+      if (!isModeBendaharaActive) {
+        alert('🔒 Silakan masuk ke Mode Bendahara terlebih dahulu!');
+        return;
+      }
+      dataPemasukanLain.splice(index, 1);
+      localStorage.setItem('pemasukanLain_XIF', JSON.stringify(dataPemasukanLain));
+      renderTabelPemasukanLain();
+    }
+
+    function tambahPengeluaran() {
+      if (!isModeBendaharaActive) {
+        alert('🔒 Silakan masuk ke Mode Bendahara terlebih dahulu!');
+        return;
+      }
+      const keterangan = prompt('Keterangan pengeluaran:');
+      const nominal = prompt('Jumlah nominal:');
+      if (keterangan && nominal && !isNaN(nominal)) {
+        dataPengeluaran.push({ keterangan, nominal: Number(nominal) });
+        localStorage.setItem('pengeluaran_XIF', JSON.stringify(dataPengeluaran));
+        renderTabelPengeluaran();
+      }
+    }
+
+    function hapusPengeluaran(index) {
+      if (!isModeBendaharaActive) {
+        alert('🔒 Silakan masuk ke Mode Bendahara terlebih dahulu!');
+        return;
+      }
+      dataPengeluaran.splice(index, 1);
+      localStorage.setItem('pengeluaran_XIF', JSON.stringify(dataPengeluaran));
+      renderTabelPengeluaran();
+    }
+
+    window.addEventListener('load', () => {
+      populateLoginOptions();
+      
+      document.getElementById('login-gateway').style.display = 'flex';
+      document.getElementById('main-content').style.display = 'none';
+
+      renderStrukturOrganisasi();
+      renderTabelRekapKas();
+      renderTabelTugas();
+      renderTabelSiswa();
+      renderTabelPemasukanLain();
+      renderTabelPengeluaran();
+    });
+  </script>
+</body>
+</html>
